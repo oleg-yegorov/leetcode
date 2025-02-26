@@ -1,0 +1,60 @@
+from typing import List
+from collections import defaultdict
+
+import pytest
+
+class Solution:
+    def majorityElementCount(self, nums: List[int]) -> int:
+        count = {}
+        maxCount = 0
+        res = 0
+        for n in nums:
+            count[n] = 1 + count.get(n, 0)
+            if maxCount < count[n]:
+                maxCount = count[n]
+                res = n
+
+        return res
+
+    def majorityElementBoyerMoore(self, nums: List[int]) -> int:
+        res, count = 0, 0
+        for n in nums:
+            if count == 0:
+                res = n
+            count += (1 if res == n else -1)
+
+        return res
+
+    # my first attempt: remove not equal elements.
+    def majorityElement(self, nums: List[int]) -> int:
+        if len(nums) < 3:
+            return nums[0]
+
+        i = 0
+        j = 1
+
+        while j < len(nums):
+            if nums[i] == nums[j]:
+                j += 1
+            else:
+                if i + 1 != j:
+                    t = nums[j]
+                    nums[j] = nums[i + 1]
+                    nums[i + 1] = t
+
+                i += 2
+                j = j + 1
+
+        return nums[j] if j < len(nums) else nums[i]
+
+
+@pytest.mark.parametrize('nums, major', [
+    ([6, 5, 5], 5),
+    ([3, 3, 4], 3),
+    ([3, 3, 3, 2], 3),
+    ([3, 2, 3], 3),
+    ([2, 2, 1, 1, 1, 2, 2], 2)
+])
+def test_majority_element(nums: List[int], major: int):
+    r = Solution().majorityElementBoyerMoore(nums)
+    assert r == major
