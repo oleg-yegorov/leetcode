@@ -62,7 +62,7 @@ def test_merge_two_sorted_lists():
     l2.next.next = ListNode(4)
 
     r = Solution().mergeTwoLists(l1, l2)
-    assert r.val == 1==
+    assert r.val == 1
     assert r.next.val == 1
     assert r.next.next.val == 2
     assert r.next.next.next.val == 3
