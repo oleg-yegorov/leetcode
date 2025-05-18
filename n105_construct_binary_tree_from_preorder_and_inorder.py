@@ -11,6 +11,39 @@ class TreeNode:
 
 class Solution:
     def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        # теперь попробуем с указателями
+
+        def build_tree_4_pointers(pl: int, pr: int, il: int, ir: int) -> Optional[TreeNode]:
+            head = TreeNode(preorder[pl])
+            in_head = inorder.index(head.val, il, ir)
+            left_part = in_head - il
+            right_part = ir - in_head - 1
+
+            head.left = build_tree_4_pointers(pl + 1, pl + left_part + 1, il, in_head) if left_part else None
+            head.right = build_tree_4_pointers(pl + left_part + 1, pr, in_head + 1, ir) if right_part else None
+
+            return head
+
+        if not preorder:
+            return None
+
+        return build_tree_4_pointers(0, len(preorder), 0, len(inorder))
+
+    def buildTreeSmall(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        # самое короткое решение
+        if len(preorder) == 0:
+            return None
+
+        head = TreeNode(preorder[0])
+        in_head = inorder.index(head.val)
+
+        head.left = self.buildTree(preorder[1: in_head + 1], inorder[0:in_head])
+        head.right = self.buildTree(preorder[in_head + 1:], inorder[in_head+1:])
+
+        return head
+
+    def buildTree_2_3(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        # нахожу двойки и тройки, мой классический метод
         nodes = [TreeNode(n) for n in preorder]
 
         while len(preorder) > 1:
@@ -71,3 +104,5 @@ def test_build_tree():
     assert tree.left.val == 1
     assert tree.right.val == 3
     assert tree.right.right.val == 4
+
+    assert Solution().buildTree(preorder=[], inorder=[]) is None
