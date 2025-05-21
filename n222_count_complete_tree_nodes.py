@@ -11,6 +11,32 @@ class TreeNode:
 
 class Solution:
     def countNodes(self, root: Optional[TreeNode]) -> int:
+        # Решение из интернета. Если левое и правое направление совпадают по длине, то дерево полное дерево сбалансированно,
+        # (максимальное количество вершин), и можно посчитать количество его вершин по формуле 2**n. Если оно не
+        # сбалансировано, то смотрим, сбалансированы ли левое и правое поддеревья, и так рекурсивно, пока не найдем
+        # такие.
+        if not root:
+            return 0
+
+        def l_height(node: TreeNode) -> int:
+            if not node:
+                return 0
+            return 1 + l_height(node.left)
+
+        def r_height(node: TreeNode) -> int:
+            if not node:
+                return 0
+            return 1 + r_height(node.right)
+
+        l, r = l_height(root), r_height(root)
+        if l > r:
+            return 1 + self.countNodes(root.left) + self.countNodes(root.right)
+        else:
+            return 2**l - 1
+
+    def countNodesI(self, root: Optional[TreeNode]) -> int:
+        # Это мое решение. Тут я вычисляю высоту дерева и потом нахожу, где заканчивается последний ряд методом
+        # бинарного поиска
         if not root:
             return 0
 
