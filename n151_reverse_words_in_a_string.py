@@ -1,15 +1,19 @@
 import pytest
 
+import utility
+
 
 # Given an input string s, reverse the order of the words.
 # A word is defined as a sequence of non-space characters. The words in s will be separated by at least one space.
 # Return a string of the words in reverse order concatenated by a single space.
 # Note that s may contain leading or trailing spaces or multiple spaces between two words. The returned string should
 # only have a single space separating the words. Do not include any extra spaces.
-class Solution:
-    def reverseWordsFast(self, s: str) -> str:
+class SolutionFast:
+    def reverseWords(self, s: str) -> str:
         return " ".join(reversed(s.split()))
 
+
+class Solution:
     def reverseWords(self, s: str) -> str:
         n = len(s)
         i = n-1
@@ -36,12 +40,11 @@ class Solution:
         return ans[:-1]
 
 
-
-
 @pytest.mark.parametrize('s, res', [
     ("a", "a"),
     ("the sky is blue", "blue is sky the"),
     ("  hello world  ", "world hello"),
 ])
-def test_reverse_words(s: str, res: str):
-    assert Solution().reverseWordsFast(s) == res
+@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__))
+def test_reverse_words(solution_class, s: str, res: str):
+    assert solution_class().reverseWords(s) == res

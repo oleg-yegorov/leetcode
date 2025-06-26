@@ -2,13 +2,14 @@ from typing import Tuple
 
 import pytest
 
+import utility
+
 
 # You have intercepted a secret message encoded as a string of numbers. The message is decoded via the following
 # mapping: "1" -> 'A' ...  "26" -> 'Z'
 # Given a string s containing only digits, return the number of ways to decode it. If the entire string cannot
 # be decoded in any valid way, return 0.
-class Solution:
-
+class SolutionRec:
     # Рекурсия. Доходим до последнего символа. Если на данных момент все без ошибок - возвращаем 1. То есть количество
     # возможных комбинаций на данном шаге. Потом идем наверх и складываем их. Сумма отображает следующее: сколько
     # будет правильных комбинаций оставшейся справа строки. Для самого левого символа это число будет равно решению.
@@ -28,25 +29,13 @@ class Solution:
 
         return forks
 
-    def fib(self, n):
-        if n in [0, 1]:
-            return 1
-
-        first = 1
-        second = 1
-
-        for _ in range(n - 1):
-            second = first + second
-            first = second - first
-
-        return second
-
+class SolutionSeqs:
     # Надо разбить строку на отрезки, в которых есть последовательность 1 или 2. Тогда каждый отрезок будет
     # отражать столько комбинаций, сколько отображает функция Фибоначчи. Далее нужно перемножить все эти интервалы.
     # Крайние случаи: перед 0 должна стоять 1 или 2.
     # Количество комбинация это функция Фибоначчи, потому что складывается количество комбинаций на предыдущем шаге
     # (возможна буква а или б) и комбинации два шага назад (возможна буква из двух символов).
-    def numDecodingsSeqs(self, s: str) -> int:
+    def numDecodings(self, s: str) -> int:
         ind = 0
         mult = 1
 
@@ -77,9 +66,24 @@ class Solution:
 
         return mult
 
+    def fib(self, n):
+        if n in [0, 1]:
+            return 1
+
+        first = 1
+        second = 1
+
+        for _ in range(n - 1):
+            second = first + second
+            first = second - first
+
+        return second
+
+
+class SolutionDP:
     # Динамичное программирование. Если текущее однозначное число подходит, то добавляем его варианты к предыдущему.
     # Если текущее число двузначное, то добавляем его варианты к следующему результату
-    def numDecodingsDP(self, s: str) -> int:
+    def numDecodings(self, s: str) -> int:
         res = [0] * (len(s) + 1)
         res[0] = 1
 
@@ -92,8 +96,10 @@ class Solution:
 
         return res[-1]
 
+
+class SolutionDPwithoutArray:
     # Так как весь массив промежуточных значений не нужен, то храним только нужные: предыдущее, текущее и следующее
-    def numDecodingsDPwithoutArray(self, s: str) -> int:
+    def numDecodings(self, s: str) -> int:
         prev = 0
         cur = 1
         next = 0
@@ -111,6 +117,7 @@ class Solution:
 
         return cur
 
+
 @pytest.mark.parametrize('s, ret', [
     ("11106", 2),
     ("00", 0),
@@ -122,5 +129,6 @@ class Solution:
     ("06", 0),
     ("100", 0)
 ])
-def test_decode_ways(s, ret):
-    assert(Solution().numDecodingsDP(s) == ret)
+@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__, exclude_classes=[SolutionRec]))
+def test_decode_ways(solution_class, s, ret):
+    assert(solution_class().numDecodings(s) == ret)

@@ -1,5 +1,9 @@
 from typing import Optional, List
 
+import pytest
+
+import utility
+
 
 # Definition for singly-linked list.
 class ListNode:
@@ -9,7 +13,7 @@ class ListNode:
 
 
 class Solution:
-    def hasCycle1(self, head: Optional[ListNode]) -> bool:
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
         # this approach add a special node and points to it from all already passed nodes
         if head is None:
             return False
@@ -25,6 +29,8 @@ class Solution:
             if head is None:
                 return False
 
+
+class Solution2:
     def hasCycle(self, head: Optional[ListNode]) -> bool:
         if head is None:
             return False
@@ -44,7 +50,9 @@ class Solution:
             if fast_pointer == slow_pointer:
                 return True
 
-    def hasCycleTobe(self, head: Optional[ListNode]) -> bool:
+
+class SolutionHasCycleTobe:
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
         slow_pointer = fast_pointer = head
         while slow_pointer and fast_pointer and fast_pointer.next:
             slow_pointer = slow_pointer.next
@@ -55,7 +63,8 @@ class Solution:
         return False
 
 
-def test_linked_list_cycle():
+@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__, exclude_classes=[ListNode]))
+def test_linked_list_cycle(solution_class):
     n0 = ListNode(3)
     n1 = ListNode(2)
     n2 = ListNode(0)
@@ -64,10 +73,10 @@ def test_linked_list_cycle():
     n1.next = n2
     n2.next = n3
     n3.next = n1
-    assert Solution().hasCycle(n0) == True
+    assert solution_class().hasCycle(n0) == True
 
     n0 = ListNode(3)
     n0.next = None
-    assert Solution().hasCycle(n0) == False
+    assert solution_class().hasCycle(n0) == False
 
 

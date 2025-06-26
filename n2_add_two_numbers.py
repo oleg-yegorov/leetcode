@@ -1,5 +1,9 @@
 from typing import Optional
 
+import pytest
+
+from utility import get_module_classes
+
 
 # Definition for singly-linked list.
 class ListNode:
@@ -13,8 +17,9 @@ class ListNode:
 # Add the two numbers and return the sum as a linked list.
 #
 # You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+
 class Solution:
-    def addTwoNumbers2(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
         l1_ptr = l1
         l2_ptr = l2
         head = None
@@ -48,8 +53,9 @@ class Solution:
 
         return head
 
+
+class SolutionAfterYoutube:
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
-        # After Youtube
         dummy = ListNode()
         cur = dummy
 
@@ -68,7 +74,8 @@ class Solution:
         return dummy.next
 
 
-def test_add_two_number():
+@pytest.mark.parametrize('solution_class', get_module_classes(__name__, exclude_classes=[ListNode]))
+def test_add_two_number(solution_class):
     l1 = ListNode(2)
     l1.next = ListNode(4)
     l1.next.next = ListNode(3)
@@ -77,14 +84,14 @@ def test_add_two_number():
     l2.next = ListNode(6)
     l2.next.next = ListNode(4)
 
-    res = Solution().addTwoNumbers(l1, l2)
+    res = solution_class().addTwoNumbers(l1, l2)
     assert res.val == 7
     assert res.next.val == 0
     assert res.next.next.val == 8
 
     l1 = ListNode(0)
     l2 = ListNode(0)
-    res = Solution().addTwoNumbers(l1, l2)
+    res = solution_class().addTwoNumbers(l1, l2)
     assert res.val == 0
 
     l1 = ListNode(9)
@@ -100,7 +107,7 @@ def test_add_two_number():
     l2.next.next = ListNode(9)
     l2.next.next.next = ListNode(9)
 
-    res = Solution().addTwoNumbers(l1, l2)
+    res = solution_class().addTwoNumbers(l1, l2)
     assert res.val == 8
     assert res.next.val == 9
     assert res.next.next.val == 9

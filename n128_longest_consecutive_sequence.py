@@ -1,10 +1,14 @@
 from typing import List
 
+import pytest
+
+import utility
+
 
 # Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence.
 #
 # You must write an algorithm that runs in O(n) time.
-class Solution:
+class Solution1:
     def merge_intervals(self, inc: dict[int], dec: dict[int], n: int, m: int) -> None:
         inc[dec[n]] = inc[m]
         dec[inc[m]] = dec[n]
@@ -12,7 +16,7 @@ class Solution:
         del inc[m]
         del dec[n]
 
-    def longestConsecutive2(self, nums: List[int]) -> int:
+    def longestConsecutive(self, nums: List[int]) -> int:
         inc = {}
         dec = {}
         for n in nums:
@@ -29,6 +33,8 @@ class Solution:
 
         return max(value - key + 1 for key, value in inc.items()) if inc else 0
 
+
+class Solution2:
     def longestConsecutive(self, nums: List[int]) -> int:
         s = set(nums)
 
@@ -46,8 +52,9 @@ class Solution:
         return longest
 
 
-def test_longest_cons():
-    assert Solution().longestConsecutive([100,4,200,1,3,2]) == 4
-    assert Solution().longestConsecutive([0,3,7,2,5,8,4,6,0,1]) == 9
-    assert Solution().longestConsecutive([1,0,1,2]) == 3
-    assert Solution().longestConsecutive([]) == 0
+@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__))
+def test_longest_cons(solution_class):
+    assert solution_class().longestConsecutive([100,4,200,1,3,2]) == 4
+    assert solution_class().longestConsecutive([0,3,7,2,5,8,4,6,0,1]) == 9
+    assert solution_class().longestConsecutive([1,0,1,2]) == 3
+    assert solution_class().longestConsecutive([]) == 0

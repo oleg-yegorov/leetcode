@@ -2,6 +2,8 @@ from typing import List
 
 import pytest
 
+import utility
+
 
 # Given an integer array nums, rotate the array to the right by k steps, where k is non-negative.
 class Solution:
@@ -25,17 +27,23 @@ class Solution:
 
             nums[i] = t
 
-    def rotateByOne(self, nums: List[int], k: int) -> None:
+
+class SolutionRotateByOne:
+    def rotate(self, nums: List[int], k: int) -> None:
         for i in range((len(nums)- k) % len(nums)):
             nums.append(nums[0])
             del nums[0]
 
+
+class SolutionRotateSlicing:
     def rotateSlicing(self, nums: List[int], k: int) -> None:
         k = (len(nums)- k) % len(nums)
         res = (list(nums[0:k]))
         del nums[0:k]
         nums.extend(res)
 
+
+class Solution2:
     def rotate(self, nums: List[int], k: int) -> None:
         n = len(nums)
         k %= n
@@ -60,6 +68,7 @@ class Solution:
     ([1, 2, 3, 4, 5, 6, 7], 3, [5, 6, 7, 1, 2, 3, 4]),
     ([-1, -100, 3, 99], 2, [3, 99, -1, -100])
 ])
-def test_rotate_array(nums: List[int], k: int, to_be_nums: List[int]):
-    Solution().rotate(nums, k)
+@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__, exclude_classes=[SolutionRotateByOne, SolutionRotateSlicing, Solution2]))
+def test_rotate_array(solution_class, nums: List[int], k: int, to_be_nums: List[int]):
+    solution_class().rotate(nums, k)
     assert nums == to_be_nums

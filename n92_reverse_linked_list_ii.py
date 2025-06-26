@@ -1,5 +1,9 @@
 from typing import Optional
 
+import pytest
+
+import utility
+
 
 # Given the head of a singly linked list and two integers left and right where left <= right, reverse the nodes
 # of the list from position left to position right, and return the reversed list.
@@ -32,7 +36,9 @@ class Solution:
 
         return dummy.next
 
-    def reverseBetween2(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
+
+class Solution2:
+    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
         dummy = ListNode(0)
         cur_new = dummy
 
@@ -62,14 +68,15 @@ class Solution:
         return dummy.next
 
 
-def test_reverse_between():
+@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__, exclude_classes=[ListNode]))
+def test_reverse_between(solution_class):
     l = ListNode(1)
     l.next = ListNode(2)
     l.next.next = ListNode(3)
     l.next.next.next = ListNode(4)
     l.next.next.next.next = ListNode(5)
 
-    r = Solution().reverseBetween(l, 2, 4)
+    r = solution_class().reverseBetween(l, 2, 4)
 
     assert r.val == 1
     assert r.next.val == 4
@@ -79,6 +86,6 @@ def test_reverse_between():
 
     l = ListNode(1)
     l.next = ListNode(2)
-    l = Solution().reverseBetween(l, 1, 2)
+    l = solution_class().reverseBetween(l, 1, 2)
     assert l.val == 2
     assert l.next.val == 1

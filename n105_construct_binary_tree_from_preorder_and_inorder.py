@@ -1,5 +1,9 @@
 from typing import List, Optional
 
+import pytest
+
+import utility
+
 
 # Definition for a binary tree node.
 class TreeNode:
@@ -9,10 +13,8 @@ class TreeNode:
         self.right = right
 
 
-class Solution:
+class SolutionWithPointers:
     def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
-        # теперь попробуем с указателями
-
         def build_tree_4_pointers(pl: int, pr: int, il: int, ir: int) -> Optional[TreeNode]:
             head = TreeNode(preorder[pl])
             in_head = inorder.index(head.val, il, ir)
@@ -29,7 +31,9 @@ class Solution:
 
         return build_tree_4_pointers(0, len(preorder), 0, len(inorder))
 
-    def buildTreeSmall(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+
+class SolutionSmall:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
         # самое короткое решение
         if len(preorder) == 0:
             return None
@@ -42,8 +46,13 @@ class Solution:
 
         return head
 
-    def buildTree_2_3(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+
+class SolutionClassic:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
         # нахожу двойки и тройки, мой классический метод
+        if not preorder:
+            return None
+
         nodes = [TreeNode(n) for n in preorder]
 
         while len(preorder) > 1:
@@ -82,27 +91,28 @@ class Solution:
         return nodes[0]
 
 
-def test_build_tree():
-    tree = Solution().buildTree(preorder=[3,9,20,15,7], inorder=[9,3,15,20,7])
+@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__, exclude_classes=[TreeNode]))
+def test_build_tree(solution_class):
+    tree = solution_class().buildTree(preorder=[3,9,20,15,7], inorder=[9,3,15,20,7])
     assert tree.val == 3
     assert tree.left.val == 9
     assert tree.right.val == 20
     assert tree.right.left.val == 15
     assert tree.right.right.val == 7
 
-    tree = Solution().buildTree(preorder=[1,2], inorder=[1,2])
+    tree = solution_class().buildTree(preorder=[1,2], inorder=[1,2])
     assert tree.val == 1
     assert tree.right.val == 2
 
-    tree = Solution().buildTree(preorder=[1,2,3], inorder=[3,2,1])
+    tree = solution_class().buildTree(preorder=[1,2,3], inorder=[3,2,1])
     assert tree.val == 1
     assert tree.left.val == 2
     assert tree.left.left.val == 3
 
-    tree = Solution().buildTree(preorder=[2, 1, 3, 4], inorder=[1,2,3,4])
+    tree = solution_class().buildTree(preorder=[2, 1, 3, 4], inorder=[1,2,3,4])
     assert tree.val == 2
     assert tree.left.val == 1
     assert tree.right.val == 3
     assert tree.right.right.val == 4
 
-    assert Solution().buildTree(preorder=[], inorder=[]) is None
+    assert solution_class().buildTree(preorder=[], inorder=[]) is None

@@ -2,11 +2,13 @@ from typing import List
 
 import pytest
 
+from utility import get_module_classes
 
-class Solution:
+
+class SolutionHash:
     # Создается дополнительная структура - хэш-таблица (словарь).
     # Эта структура хранит структуру массима (значение и индекс), чтобы не можно было решить задачу за один проход.
-    def twoSumHash(self, nums: List[int], target: int) -> List[int]:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
         seen = {}
         for i in range(len(nums)):
             diff = target - nums[i]
@@ -15,18 +17,22 @@ class Solution:
             else:
                 seen[nums[i]] = i
 
+
+class SolutionBruteForce:
     # Перебор всех возможных пар и сравнение с суммой.
-    def twoSumBruteForce(self, nums: List[int], target: int) -> List[int]:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
         for i in range(len(nums) - 1):
             for j in range(i + 1, len(nums)):
                 if nums[i] + nums[j] == target:
                     return[i, j]
 
+
+class SolutionTwoPointers:
     # Метод двух указателей. Которые сходятся к середине. Если один из указателей указывает на нужное значение
     # (левый - на меньший индекс или правый на больший), то второй указатель просто дойдет до своего нужного
     # положение. А так как указатели сходятся на каждом шаге, один из них рано или поздно дойдет. Ну а к этому
     # времени второй не сможет пройти своего положение, потому что тогда уже он будет "притягивать" второй указатель.
-    def twoSumTwoPointers(self, nums: List[int], target: int) -> List[int]:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
         nums_sorted = nums.copy()
         nums_sorted.sort()
 
@@ -46,7 +52,8 @@ class Solution:
 @pytest.mark.parametrize('nums, target, ret', [
     ([2, 7, 11, 15], 9, [0, 1]),
     ([3, 2, 4], 6, [1, 2]),
-    ([3, 3], 6, [0, 1])
+    ([3, 3], 6, [0, 1]),
 ])
-def test_two_sum(nums, target, ret):
-    assert(Solution().twoSumTwoPointers(nums, target) in [ret, list(reversed(ret))])
+@pytest.mark.parametrize('solution_class', get_module_classes(__name__))
+def test_two_sum(solution_class, nums, target, ret):
+    assert(solution_class().twoSum(nums, target) in [ret, list(reversed(ret))])

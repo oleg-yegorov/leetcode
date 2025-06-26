@@ -1,4 +1,9 @@
 # Definition for a binary tree node.
+import pytest
+
+import utility
+
+
 class TreeNode:
     def __init__(self, x):
         self.val = x
@@ -6,7 +11,7 @@ class TreeNode:
         self.right = None
 
 
-class Solution:
+class SolutionOthers:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
         if not root:
             return None
@@ -23,7 +28,8 @@ class Solution:
             return l or r
 
 
-    def lowestCommonAncestorMy(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+class SolutionOthersMy:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
         def path(node: TreeNode, p: TreeNode, stack: list[TreeNode]):
             if not node:
                 return
@@ -57,7 +63,8 @@ class Solution:
             return stack1[min(len(stack1), len(stack2))-1]
 
 
-def test_lowest_common_ancestor():
+@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__, exclude_classes=[TreeNode]))
+def test_lowest_common_ancestor(solution_class):
     root = TreeNode(3)
     root.left = TreeNode(5)
     root.right = TreeNode(1)
@@ -68,9 +75,9 @@ def test_lowest_common_ancestor():
     root.right = TreeNode(1)
     root.right.left = TreeNode(0)
     root.right.right = TreeNode(8)
-    assert Solution().lowestCommonAncestor(root, root.left, root.left.right.right) is root.left
-    assert Solution().lowestCommonAncestor(root, root.left, root.right) is root
+    assert solution_class().lowestCommonAncestor(root, root.left, root.left.right.right) is root.left
+    assert solution_class().lowestCommonAncestor(root, root.left, root.right) is root
 
     root = TreeNode(1)
     root.right = TreeNode(2)
-    assert Solution().lowestCommonAncestor(root, root, root.right) is root
+    assert solution_class().lowestCommonAncestor(root, root, root.right) is root

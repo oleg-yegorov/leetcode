@@ -1,5 +1,9 @@
 from typing import Optional
 
+import pytest
+
+import utility
+
 
 # Definition for a binary tree node.
 class TreeNode:
@@ -9,8 +13,8 @@ class TreeNode:
         self.right = right
 
 
-class Solution:
-    def maxPathSumI(self, root: Optional[TreeNode]) -> int:
+class Solution1:
+    def maxPathSum(self, root: Optional[TreeNode]) -> int:
         # I. doesnot pass all tests
         def max_path_and_leaf(node: TreeNode, path_prev: int, max_path: int, max_leaf: int) -> (int, int):
             path = path_prev + node.val
@@ -34,6 +38,8 @@ class Solution:
 
         return max_path_and_leaf(root, 0, -50000, -50000)[1]
 
+
+class Solution2:
     def maxPathSum(self, root: Optional[TreeNode]) -> int:
         # Здесь идея примерно такая же, но теперь я иду обратным обходом и сохраняю максимальный найденный путь
         # и максимальный подпуть, проходящий через эту вершину
@@ -57,7 +63,8 @@ class Solution:
         return max_path_and_half_path(root)[0]
 
 
-def test_max_path_sum():
+@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__, exclude_classes=[Solution1, TreeNode]))
+def test_max_path_sum(solution_class):
     # [            1,
     #           null, -7,
     #               -9, -8,
@@ -69,12 +76,12 @@ def test_max_path_sum():
     root.right.right = TreeNode(-8)
     root.right.right.left = TreeNode(3)
     root.right.right.left.right = TreeNode(-2)
-    assert Solution().maxPathSum(root) == 3
+    assert solution_class().maxPathSum(root) == 3
 
 
     root = TreeNode(1)
     root.right = TreeNode(2)
-    assert Solution().maxPathSum(root) == 3
+    assert solution_class().maxPathSum(root) == 3
 
     root = TreeNode(-10)
     root.left = TreeNode(9)
@@ -82,12 +89,12 @@ def test_max_path_sum():
     root.right.left = TreeNode(15)
     root.right.right = TreeNode(7)
 
-    assert Solution().maxPathSum(root) == 42
+    assert solution_class().maxPathSum(root) == 42
 
     root = TreeNode(1)
     root.left = TreeNode(2)
     root.right = TreeNode(3)
 
-    assert Solution().maxPathSum(root) == 6
+    assert solution_class().maxPathSum(root) == 6
 
-    assert Solution().maxPathSum(TreeNode(0)) == 0
+    assert solution_class().maxPathSum(TreeNode(0)) == 0

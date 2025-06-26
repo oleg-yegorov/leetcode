@@ -28,7 +28,6 @@ class Solution:
         return True
 
 
-
 @pytest.mark.parametrize('pattern, s, res', [
     ("aaa", "aa aa aa aa", False),
     ('abba', 'dog cat cat dog', True),

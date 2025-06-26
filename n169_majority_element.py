@@ -3,8 +3,11 @@ from collections import defaultdict
 
 import pytest
 
-class Solution:
-    def majorityElementCount(self, nums: List[int]) -> int:
+import utility
+
+
+class SolutionCount:
+    def majorityElement(self, nums: List[int]) -> int:
         count = {}
         maxCount = 0
         res = 0
@@ -16,7 +19,9 @@ class Solution:
 
         return res
 
-    def majorityElementBoyerMoore(self, nums: List[int]) -> int:
+
+class SolutionCountBoyerMoore:
+    def majorityElement(self, nums: List[int]) -> int:
         res, count = 0, 0
         for n in nums:
             if count == 0:
@@ -25,6 +30,8 @@ class Solution:
 
         return res
 
+
+class Solution:
     # my first attempt: remove not equal elements.
     def majorityElement(self, nums: List[int]) -> int:
         if len(nums) < 3:
@@ -55,6 +62,7 @@ class Solution:
     ([3, 2, 3], 3),
     ([2, 2, 1, 1, 1, 2, 2], 2)
 ])
-def test_majority_element(nums: List[int], major: int):
-    r = Solution().majorityElementBoyerMoore(nums)
+@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__, exclude_classes=[defaultdict]))
+def test_majority_element(solution_class, nums: List[int], major: int):
+    r = solution_class().majorityElement(nums)
     assert r == major

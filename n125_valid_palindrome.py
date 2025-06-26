@@ -1,10 +1,12 @@
 import pytest
 
+import utility
+
+
 # A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing
 # all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters
 # and numbers.
 # Given a string s, return true if it is a palindrome, or false otherwise.
-
 class Solution:
     def isPalindrome(self, s: str) -> bool:
         left_ptr = 0
@@ -29,13 +31,16 @@ class Solution:
 
         return True
 
-    def isPalindromeFilterMap(self, s: str) -> bool:
+
+class SolutionFilterMap:
+    def isPalindrome(self, s: str) -> bool:
         filtered = filter(lambda ch: ch.isalnum(), s)
         filtered_cat = map(lambda ch: ch.capitalize(), filtered)
         filtered_cat_list = list(filtered_cat)
-        filtered_cat_list_reversed = reversed(filtered_cat_list)
+        filtered_cat_list_reversed = list(reversed(filtered_cat_list))
 
         return filtered_cat_list == filtered_cat_list_reversed
+
 
 @pytest.mark.parametrize('s, res', [
     ("!!!", True),
@@ -46,5 +51,6 @@ class Solution:
     (" ", True),
     ("  ", True),
 ])
-def test_is_palindrome(s: str, res: bool):
-    assert Solution().isPalindromeFilterMap(s) == res
+@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__, exclude_classes=[]))
+def test_is_palindrome(solution_class, s: str, res: bool):
+    assert solution_class().isPalindrome(s) == res

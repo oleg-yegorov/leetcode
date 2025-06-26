@@ -1,6 +1,11 @@
 from typing import Optional, List
 from collections import deque
 
+import pytest
+
+import utility
+
+
 # Definition for a binary tree node.
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
@@ -9,7 +14,7 @@ class TreeNode:
         self.right = right
 
 
-class Solution:
+class SolutionRec:
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
         # recursive
         def right_side_view(node: TreeNode, level: int, res: list[int]):
@@ -29,7 +34,8 @@ class Solution:
         return res
 
 
-    def rightSideViewBFS_DEQUE(self, root: Optional[TreeNode]) -> List[int]:
+class SolutionBFS_DEQUE:
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
         # BFS with deque
         if not root:
             return []
@@ -46,7 +52,9 @@ class Solution:
                     d.append(node.right)
         return res
 
-    def rightSideViewBDF_LISTS(self, root: Optional[TreeNode]) -> List[int]:
+
+class SolutionBFS_LISTS:
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
         # Breadth-first-search (BFS)
         if not root:
             return []
@@ -66,21 +74,22 @@ class Solution:
         return right_side_view
 
 
-def test_right_side_view():
+@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__, exclude_classes=[TreeNode, deque]))
+def test_right_side_view(solution_class):
     root = TreeNode(1)
     root.right = TreeNode(3)
     root.left = TreeNode(2)
     root.right.right = TreeNode(4)
     root.left.right = TreeNode(5)
-    assert Solution().rightSideView(root) == [1, 3, 4]
+    assert solution_class().rightSideView(root) == [1, 3, 4]
 
     root = TreeNode(1)
     root.left = TreeNode(2)
     root.right = TreeNode(3)
     root.left.left = TreeNode(4)
     root.left.left.left = TreeNode(5)
-    assert Solution().rightSideView(root) == [1, 3, 4, 5]
+    assert solution_class().rightSideView(root) == [1, 3, 4, 5]
 
     root = TreeNode(1)
     root.right = TreeNode(3)
-    assert Solution().rightSideView(root) == [1, 3]
+    assert solution_class().rightSideView(root) == [1, 3]

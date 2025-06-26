@@ -1,5 +1,9 @@
 from typing import List
 
+import pytest
+
+import utility
+
 
 # There are some spherical balloons taped onto a flat wall that represents the XY-plane. The balloons are represented
 # as a 2D integer array points where points[i] = [xstart, xend] denotes a balloon whose horizontal diameter stretches
@@ -10,7 +14,7 @@ from typing import List
 # of arrows that can be shot. A shot arrow keeps traveling up infinitely, bursting any balloons in its path.
 #
 # Given the array points, return the minimum number of arrows that must be shot to burst all balloons.
-class Solution:
+class SolutionOthers:
     def findMinArrowShots(self, points: List[List[int]]) -> int:
         # after Youtube
         res = len(points)
@@ -27,7 +31,9 @@ class Solution:
 
         return res
 
-    def findMinArrowShots2(self, points: List[List[int]]) -> int:
+
+class SolutionMy:
+    def findMinArrowShots(self, points: List[List[int]]) -> int:
         points.sort(key=lambda x: x[0])
 
         i = 0
@@ -44,8 +50,9 @@ class Solution:
         return arrow_count + 1
 
 
-def test_find_minimum_arrow_shots():
-    assert Solution().findMinArrowShots([[13,16],[2,8],[1,6],[7,12]]) == 3
-    assert Solution().findMinArrowShots([[10,16],[2,8],[1,6],[7,12]]) == 2
-    assert Solution().findMinArrowShots([[1,2],[3,4],[5,6],[7,8]]) == 4
-    assert Solution().findMinArrowShots([[1,2],[2,3],[3,4],[4,5]]) == 2
+@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__))
+def test_find_minimum_arrow_shots(solution_class):
+    assert solution_class().findMinArrowShots([[13,16],[2,8],[1,6],[7,12]]) == 3
+    assert solution_class().findMinArrowShots([[10,16],[2,8],[1,6],[7,12]]) == 2
+    assert solution_class().findMinArrowShots([[1,2],[3,4],[5,6],[7,8]]) == 4
+    assert solution_class().findMinArrowShots([[1,2],[2,3],[3,4],[4,5]]) == 2

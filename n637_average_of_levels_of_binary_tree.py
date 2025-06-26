@@ -1,6 +1,11 @@
 from typing import Optional, List
 from collections import deque
 
+import pytest
+
+import utility
+
+
 # Definition for a binary tree node.
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
@@ -9,7 +14,7 @@ class TreeNode:
         self.right = right
 
 
-class Solution:
+class SolutionDeque:
     def averageOfLevels(self, root: Optional[TreeNode]) -> List[float]:
         # with deques
         res = []
@@ -25,7 +30,9 @@ class Solution:
                     d.append(node.right)
         return res
 
-    def averageOfLevelsLISTS(self, root: Optional[TreeNode]) -> List[float]:
+
+class SolutionLists:
+    def averageOfLevels(self, root: Optional[TreeNode]) -> List[float]:
         # with lists
         level_nodes = [root]
         res = []
@@ -41,10 +48,11 @@ class Solution:
         return res
 
 
-def test_average_of_levels():
+@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__, exclude_classes=[TreeNode, deque]))
+def test_average_of_levels(solution_class):
     root = TreeNode(3)
     root.left = TreeNode(9)
     root.right = TreeNode(20)
     root.right.left = TreeNode(15)
     root.right.right = TreeNode(7)
-    assert Solution().averageOfLevels(root) == [3.0, 14.5, 11.0]
+    assert solution_class().averageOfLevels(root) == [3.0, 14.5, 11.0]

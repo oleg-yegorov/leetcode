@@ -2,8 +2,11 @@ import pytest
 from typing import List
 from collections import Counter, defaultdict
 
+import utility
+
+
 # Given an array of strings strs, group the anagrams together. You can return the answer in any order.
-class Solution:
+class Solution1:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         counter_list = []
         str_list = []
@@ -19,7 +22,9 @@ class Solution:
 
         return str_list
 
-    def groupAnagrams2(self, strs: List[str]) -> List[List[str]]:
+
+class Solution2:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         sorted_list = []
         str_list = []
         for _str in strs:
@@ -33,7 +38,9 @@ class Solution:
 
         return str_list
 
-    def groupAnagrams3(self, strs: List[str]) -> List[List[str]]:
+
+class Solution3:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         d = defaultdict(list)
         for _str in strs:
             sorted_str = ''.join(sorted(_str))
@@ -41,10 +48,15 @@ class Solution:
 
         return list(d.values())
 
+
 @pytest.mark.parametrize('strs, res', [
     (["eat","tea","tan","ate","nat","bat"], [["bat"],["nat","tan"],["ate","eat","tea"]]),
     ([""],  [[""]]),
     (["a"], [["a"]]),
 ])
-def test_group_anagrams(strs: List[str], res: List[List[int]]):
-    assert Solution().groupAnagrams3(strs) == res
+@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__, exclude_classes=[Counter, defaultdict]))
+def test_group_anagrams(solution_class, strs: List[str], res: List[List[int]]):
+    def list_list_to_set_set(list_list: List[List[int]]):
+        return {frozenset(list) for list in list_list}
+
+    assert list_list_to_set_set(solution_class().groupAnagrams(strs)) == list_list_to_set_set(res)

@@ -1,5 +1,9 @@
 from typing import Optional
 
+import pytest
+
+import utility
+
 
 # Definition for a Node.
 class Node:
@@ -34,7 +38,9 @@ class Solution:
 
         return dummy.next
 
-    def copyRandomList2(self, head: 'Optional[Node]') -> 'Optional[Node]':
+
+class Solution:
+    def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
         # write nodes in list
         nodes = []
         cur = head
@@ -69,7 +75,8 @@ class Solution:
         return dummy.next
 
 
-def test_copy_random_list():
+@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__, exclude_classes=[Node]))
+def test_copy_random_list(solution_class):
     n0 = Node(7)
     n1 = Node(13)
     n2 = Node(11)
@@ -88,4 +95,4 @@ def test_copy_random_list():
     n3.random = n2
     n4.random = n0
 
-    Solution().copyRandomList(n0)
+    solution_class().copyRandomList(n0)

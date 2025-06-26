@@ -2,11 +2,13 @@ from typing import List
 
 import pytest
 
+import utility
+
 
 # Given n non-negative integers representing an elevation map where the width of each bar is 1,
 # compute how much water it can trap after raining.
-class Solution:
-    def trap_peaks(self, height: List[int]) -> int:
+class SolutionPeaks:
+    def trap(self, height: List[int]) -> int:
         height.insert(0, 0)
         height.append(0)
 
@@ -44,7 +46,8 @@ class Solution:
 
         return rain_water
 
-    # two pointers
+
+class SolutionTwoPointers:
     def trap(self, height: List[int]) -> int:
         left, right = 0, len(height) - 1
         left_max, right_max = 0, 0
@@ -67,5 +70,6 @@ class Solution:
     ([0], 0),
     ([1, 1, 1], 0),
 ])
-def test_trapping_rain_water(height: List[int], res: int):
-    assert res == Solution().trap(height)
+@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__))
+def test_trapping_rain_water(solution_class, height: List[int], res: int):
+    assert res == solution_class().trap(height)

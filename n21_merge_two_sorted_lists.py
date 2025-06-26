@@ -1,5 +1,9 @@
 from typing import Optional
 
+import pytest
+
+import utility
+
 
 # Definition for singly-linked list.
 class ListNode:
@@ -8,7 +12,7 @@ class ListNode:
         self.next = next
 
 
-class Solution:
+class SolutionYoutube:
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
         # after Youtube
         # return list must be made of list1 and list2 nodes !!!
@@ -33,7 +37,8 @@ class Solution:
         return dummy.next
 
 
-    def mergeTwoLists2(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+class Solution:
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
         dummy = ListNode()
         cur = dummy
 
@@ -52,7 +57,8 @@ class Solution:
         return dummy.next
 
 
-def test_merge_two_sorted_lists():
+@pytest.mark.parametrize("solution_class", utility.get_module_classes(__name__, exclude_classes=[ListNode]))
+def test_merge_two_sorted_lists(solution_class):
     l1 = ListNode(1)
     l1.next = ListNode(2)
     l1.next.next = ListNode(4)
@@ -69,5 +75,5 @@ def test_merge_two_sorted_lists():
     assert r.next.next.next.next.val == 4
     assert r.next.next.next.next.next.val == 4
 
-    assert None is Solution().mergeTwoLists(None, None)
-    assert Solution().mergeTwoLists(None, ListNode(0)).val == 0
+    assert None is solution_class().mergeTwoLists(None, None)
+    assert solution_class().mergeTwoLists(None, ListNode(0)).val == 0

@@ -1,5 +1,9 @@
 from typing import Optional
 
+import pytest
+
+import utility
+
 
 # Definition for a binary tree node.
 class TreeNode:
@@ -9,7 +13,7 @@ class TreeNode:
         self.right = right
 
 
-class Solution:
+class SolutionOthers:
     def countNodes(self, root: Optional[TreeNode]) -> int:
         # Решение из интернета. Если левое и правое направление совпадают по длине, то дерево полное дерево сбалансированно,
         # (максимальное количество вершин), и можно посчитать количество его вершин по формуле 2**n. Если оно не
@@ -34,7 +38,9 @@ class Solution:
         else:
             return 2**l - 1
 
-    def countNodesI(self, root: Optional[TreeNode]) -> int:
+
+class SolutionOthers:
+    def countNodes(self, root: Optional[TreeNode]) -> int:
         # Это мое решение. Тут я вычисляю высоту дерева и потом нахожу, где заканчивается последний ряд методом
         # бинарного поиска
         if not root:
@@ -82,19 +88,20 @@ class Solution:
                     start = arrow
 
 
-def test_count_complete_binary_tree_nodes():
+@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__, exclude_classes=[TreeNode]))
+def test_count_complete_binary_tree_nodes(solution_class):
     root = TreeNode(1)
     root.left = TreeNode(2)
     root.right = TreeNode(3)
 
-    assert Solution().countNodes(root) == 3
+    assert solution_class().countNodes(root) == 3
 
     root.left.left = TreeNode(4)
     root.left.right = TreeNode(5)
     root.right.left = TreeNode(6)
 
-    assert Solution().countNodes(root) == 6
+    assert solution_class().countNodes(root) == 6
 
-    assert Solution().countNodes(None) == 0
+    assert solution_class().countNodes(None) == 0
 
-    assert Solution().countNodes(TreeNode(1)) == 1
+    assert solution_class().countNodes(TreeNode(1)) == 1

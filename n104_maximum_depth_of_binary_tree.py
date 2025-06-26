@@ -1,4 +1,7 @@
 from typing import Optional
+import pytest
+
+import utility
 
 
 # Definition for a binary tree node.
@@ -9,16 +12,17 @@ class TreeNode:
         self.right = right
 
 
-class Solution:
-    def maxDepth_rec(self, root: Optional[TreeNode]) -> int:
+class SolutionRecursive:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
         # recursive
         if not root:
             return 0
         else:
             return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
 
-    def maxDepth_bfs(self, root: Optional[TreeNode]) -> int:
-        # Breadth First Search
+
+class SolutionBFS:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
         nodes = [root]
         childs = []
 
@@ -35,9 +39,9 @@ class Solution:
 
         return i
 
-    def maxDepth(self, root: Optional[TreeNode]) -> int:
-        # Iterative Depth First Search
 
+class SolutionDepthFirstSearch:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
         stack = [(root, 1)]
         max_depth = 0
         while stack:
@@ -49,13 +53,12 @@ class Solution:
         return max_depth
 
 
-
-
-def test_max_depth_of_binary_tree():
+@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__, exclude_classes=[TreeNode]))
+def test_max_depth_of_binary_tree(solution_class):
     root = TreeNode(3)
     root.left = TreeNode(9)
     root.right = TreeNode(20)
     root.right.left = TreeNode(15)
     root.right.right = TreeNode(7)
 
-    assert Solution().maxDepth(root) == 3
+    assert solution_class().maxDepth(root) == 3
