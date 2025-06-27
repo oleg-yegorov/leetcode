@@ -1,5 +1,4 @@
 from typing import Optional, List
-import pytest
 
 
 # Definition for a binary tree node.
@@ -128,6 +127,7 @@ def test_construct_binary_tree_from_4():
     tree_node.right.left = TreeNode(4, None, None)
 
     res_tree = Solution().constructFromPrePost(preorder, postorder)
+    assert res_tree.equal_except_for_one_child_nodes(tree_node)
 
 
 def test_tree_node_eq():

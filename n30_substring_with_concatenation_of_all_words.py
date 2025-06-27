@@ -9,7 +9,8 @@ import pytest
 # For example, if words = ["ab","cd","ef"], then "abcdef", "abefcd", "cdabef", "cdefab", "efabcd", and "efcdab"
 # are all concatenated strings. "acdbef" is not a concatenated string because it is not the concatenation of
 # any permutation of words.
-# Return an array of the starting indices of all the concatenated substrings in s. You can return the answer in any order.
+# Return an array of the starting indices of all the concatenated substrings in s.
+# You can return the answer in any order.
 class Solution:
     def findWordPermutation(self, s: str, words: List[str], shift: int, r: Set[int], f: List[int]):
         word_len = len(words[0])

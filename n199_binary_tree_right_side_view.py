@@ -1,17 +1,9 @@
-from typing import Optional, List
 from collections import deque
+from typing import Optional, List
 
 import pytest
 
-import utility
-
-
-# Definition for a binary tree node.
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
+from auxiliary_types import TreeNode
 
 
 class SolutionRec:
@@ -74,7 +66,7 @@ class SolutionBFS_LISTS:
         return right_side_view
 
 
-@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__, exclude_classes=[TreeNode, deque]))
+@pytest.mark.parametrize('solution_class', [SolutionRec, SolutionBFS_LISTS, SolutionBFS_DEQUE])
 def test_right_side_view(solution_class):
     root = TreeNode(1)
     root.right = TreeNode(3)

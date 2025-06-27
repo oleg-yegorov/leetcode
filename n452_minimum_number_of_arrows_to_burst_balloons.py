@@ -2,8 +2,6 @@ from typing import List
 
 import pytest
 
-import utility
-
 
 # There are some spherical balloons taped onto a flat wall that represents the XY-plane. The balloons are represented
 # as a 2D integer array points where points[i] = [xstart, xend] denotes a balloon whose horizontal diameter stretches
@@ -50,7 +48,7 @@ class SolutionMy:
         return arrow_count + 1
 
 
-@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__))
+@pytest.mark.parametrize('solution_class', [SolutionMy, SolutionOthers])
 def test_find_minimum_arrow_shots(solution_class):
     assert solution_class().findMinArrowShots([[13,16],[2,8],[1,6],[7,12]]) == 3
     assert solution_class().findMinArrowShots([[10,16],[2,8],[1,6],[7,12]]) == 2

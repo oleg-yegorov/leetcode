@@ -2,17 +2,10 @@ from typing import Optional
 
 import pytest
 
-import utility
+from auxiliary_types import ListNode
 
 
-# Definition for singly-linked list.
-class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
-
-
-class SolutionYoutube:
+class SolutionOthers:
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
         # after Youtube
         # return list must be made of list1 and list2 nodes !!!
@@ -37,7 +30,7 @@ class SolutionYoutube:
         return dummy.next
 
 
-class Solution:
+class SolutionMy:
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
         dummy = ListNode()
         cur = dummy
@@ -57,7 +50,7 @@ class Solution:
         return dummy.next
 
 
-@pytest.mark.parametrize("solution_class", utility.get_module_classes(__name__, exclude_classes=[ListNode]))
+@pytest.mark.parametrize("solution_class", [SolutionMy, SolutionOthers])
 def test_merge_two_sorted_lists(solution_class):
     l1 = ListNode(1)
     l1.next = ListNode(2)
@@ -67,7 +60,7 @@ def test_merge_two_sorted_lists(solution_class):
     l2.next = ListNode(3)
     l2.next.next = ListNode(4)
 
-    r = Solution().mergeTwoLists(l1, l2)
+    r = solution_class().mergeTwoLists(l1, l2)
     assert r.val == 1
     assert r.next.val == 1
     assert r.next.next.val == 2

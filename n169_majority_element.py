@@ -1,9 +1,6 @@
 from typing import List
-from collections import defaultdict
 
 import pytest
-
-import utility
 
 
 class SolutionCount:
@@ -62,7 +59,7 @@ class Solution:
     ([3, 2, 3], 3),
     ([2, 2, 1, 1, 1, 2, 2], 2)
 ])
-@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__, exclude_classes=[defaultdict]))
+@pytest.mark.parametrize('solution_class', [Solution, SolutionCount, SolutionCountBoyerMoore])
 def test_majority_element(solution_class, nums: List[int], major: int):
     r = solution_class().majorityElement(nums)
     assert r == major

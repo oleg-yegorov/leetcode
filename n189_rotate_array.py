@@ -2,8 +2,6 @@ from typing import List
 
 import pytest
 
-import utility
-
 
 # Given an integer array nums, rotate the array to the right by k steps, where k is non-negative.
 class Solution:
@@ -36,8 +34,8 @@ class SolutionRotateByOne:
 
 
 class SolutionRotateSlicing:
-    def rotateSlicing(self, nums: List[int], k: int) -> None:
-        k = (len(nums)- k) % len(nums)
+    def rotate(self, nums: List[int], k: int) -> None:
+        k = (len(nums) - k) % len(nums)
         res = (list(nums[0:k]))
         del nums[0:k]
         nums.extend(res)
@@ -68,7 +66,8 @@ class Solution2:
     ([1, 2, 3, 4, 5, 6, 7], 3, [5, 6, 7, 1, 2, 3, 4]),
     ([-1, -100, 3, 99], 2, [3, 99, -1, -100])
 ])
-@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__, exclude_classes=[SolutionRotateByOne, SolutionRotateSlicing, Solution2]))
+@pytest.mark.parametrize('solution_class', [Solution, Solution2, SolutionRotateSlicing, SolutionRotateByOne])
 def test_rotate_array(solution_class, nums: List[int], k: int, to_be_nums: List[int]):
-    solution_class().rotate(nums, k)
-    assert nums == to_be_nums
+    nums_copy = nums.copy()
+    solution_class().rotate(nums_copy, k)
+    assert nums_copy == to_be_nums

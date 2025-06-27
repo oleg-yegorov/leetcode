@@ -2,15 +2,7 @@ from typing import Optional
 
 import pytest
 
-import utility
-
-
-# Definition for a binary tree node.
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
+from auxiliary_types import TreeNode
 
 
 class SolutionOthers:
@@ -39,7 +31,7 @@ class SolutionOthers:
             return 2**l - 1
 
 
-class SolutionOthers:
+class SolutionMy:
     def countNodes(self, root: Optional[TreeNode]) -> int:
         # Это мое решение. Тут я вычисляю высоту дерева и потом нахожу, где заканчивается последний ряд методом
         # бинарного поиска
@@ -88,7 +80,7 @@ class SolutionOthers:
                     start = arrow
 
 
-@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__, exclude_classes=[TreeNode]))
+@pytest.mark.parametrize('solution_class', [SolutionMy, SolutionOthers])
 def test_count_complete_binary_tree_nodes(solution_class):
     root = TreeNode(1)
     root.left = TreeNode(2)

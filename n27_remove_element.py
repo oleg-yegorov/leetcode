@@ -18,7 +18,7 @@ class Solution:
 
 @pytest.mark.parametrize('nums, val, expected_nums',[
     ([3, 2, 2, 3], 3, [2, 2]),
-    ([0,1,2,2,3,0,4,2], 2, [0,1,4,0,3])
+    ([0,1,2,2,3,0,4,2], 2, [0, 0, 1, 3, 4])
 ])
 def test_remove_element(nums: List[int], val: int, expected_nums: List[int]):
     k = Solution().removeElement(nums, val)

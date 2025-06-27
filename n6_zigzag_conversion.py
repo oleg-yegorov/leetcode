@@ -34,7 +34,7 @@ class Solution:
 
 @pytest.mark.parametrize('s, numRows, res', [
     ('PAYPALISHIRING', 1, 'PAYPALISHIRING'),
-    ('PAYPALISHIRING', 2, 'PAYPALISHIRING'),
+    ('PAYPALISHIRING', 2, 'PYAIHRNAPLSIIG'),
     ('PAYPALISHIRING', 3, 'PAHNAPLSIIGYIR'),
     ('PAYPALISHIRING', 4, 'PINALSIGYAHRPI'),
 ])

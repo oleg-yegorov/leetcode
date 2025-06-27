@@ -1,14 +1,6 @@
-# Definition for a binary tree node.
 import pytest
 
-import utility
-
-
-class TreeNode:
-    def __init__(self, x):
-        self.val = x
-        self.left = None
-        self.right = None
+from auxiliary_types import TreeNode
 
 
 class SolutionOthers:
@@ -28,7 +20,7 @@ class SolutionOthers:
             return l or r
 
 
-class SolutionOthersMy:
+class SolutionMy:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
         def path(node: TreeNode, p: TreeNode, stack: list[TreeNode]):
             if not node:
@@ -63,7 +55,7 @@ class SolutionOthersMy:
             return stack1[min(len(stack1), len(stack2))-1]
 
 
-@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__, exclude_classes=[TreeNode]))
+@pytest.mark.parametrize('solution_class', [SolutionMy, SolutionOthers])
 def test_lowest_common_ancestor(solution_class):
     root = TreeNode(3)
     root.left = TreeNode(5)

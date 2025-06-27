@@ -1,17 +1,9 @@
-from typing import Optional, List
 from collections import deque
+from typing import Optional, List
 
 import pytest
 
-import utility
-
-
-# Definition for a binary tree node.
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
+from auxiliary_types import TreeNode
 
 
 class SolutionDeque:
@@ -48,7 +40,7 @@ class SolutionLists:
         return res
 
 
-@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__, exclude_classes=[TreeNode, deque]))
+@pytest.mark.parametrize('solution_class', [SolutionLists, SolutionDeque])
 def test_average_of_levels(solution_class):
     root = TreeNode(3)
     root.left = TreeNode(9)

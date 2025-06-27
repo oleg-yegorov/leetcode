@@ -2,17 +2,11 @@ from typing import Optional
 
 import pytest
 
-import utility
+from auxiliary_types import ListNode
 
 
 # Given the head of a singly linked list and two integers left and right where left <= right, reverse the nodes
 # of the list from position left to position right, and return the reversed list.
-
-# Definition for singly-linked list.
-class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
 
 
 class Solution:
@@ -68,7 +62,7 @@ class Solution2:
         return dummy.next
 
 
-@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__, exclude_classes=[ListNode]))
+@pytest.mark.parametrize('solution_class', [Solution, Solution2])
 def test_reverse_between(solution_class):
     l = ListNode(1)
     l.next = ListNode(2)

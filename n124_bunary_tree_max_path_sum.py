@@ -2,15 +2,7 @@ from typing import Optional
 
 import pytest
 
-import utility
-
-
-# Definition for a binary tree node.
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
+from auxiliary_types import TreeNode
 
 
 class Solution1:
@@ -63,7 +55,7 @@ class Solution2:
         return max_path_and_half_path(root)[0]
 
 
-@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__, exclude_classes=[Solution1, TreeNode]))
+@pytest.mark.parametrize('solution_class', [Solution2])
 def test_max_path_sum(solution_class):
     # [            1,
     #           null, -7,

@@ -2,8 +2,6 @@ from typing import List
 
 import pytest
 
-import utility
-
 
 # You are given an integer array nums. You are initially positioned at the array's first index, and each element
 # in the array represents your maximum jump length at that position. Return true if you can reach the last index,
@@ -49,8 +47,8 @@ class SolutionFaster:
     ([0], True),
     ([1], True),
     ([2, 3, 1, 1, 4], True),
-    ([3, 2, 1, 0, 4], False)
+    ([3, 2, 1, 0, 4], False),
 ])
-@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__))
+@pytest.mark.parametrize('solution_class', [SolutionInPlace, SolutionFaster])
 def test_can_jump(solution_class, nums: List[int], res: bool):
-    assert solution_class().canJump(nums) == res
+    assert solution_class().canJump(nums.copy()) == res

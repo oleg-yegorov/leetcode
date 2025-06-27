@@ -2,14 +2,7 @@ from typing import Optional, List
 
 import pytest
 
-import utility
-
-
-# Definition for singly-linked list.
-class ListNode:
-    def __init__(self, x):
-        self.val = x
-        self.next = None
+from auxiliary_types import ListNode
 
 
 class Solution:
@@ -63,7 +56,7 @@ class SolutionHasCycleTobe:
         return False
 
 
-@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__, exclude_classes=[ListNode]))
+@pytest.mark.parametrize('solution_class', [Solution, Solution2, SolutionHasCycleTobe])
 def test_linked_list_cycle(solution_class):
     n0 = ListNode(3)
     n1 = ListNode(2)

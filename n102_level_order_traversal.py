@@ -1,12 +1,6 @@
 from typing import Optional, List
 
-
-# Definition for a binary tree node.
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
+from auxiliary_types import TreeNode
 
 
 class Solution:

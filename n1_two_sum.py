@@ -2,8 +2,6 @@ from typing import List
 
 import pytest
 
-from utility import get_module_classes
-
 
 class SolutionHash:
     # Создается дополнительная структура - хэш-таблица (словарь).
@@ -54,6 +52,6 @@ class SolutionTwoPointers:
     ([3, 2, 4], 6, [1, 2]),
     ([3, 3], 6, [0, 1]),
 ])
-@pytest.mark.parametrize('solution_class', get_module_classes(__name__))
+@pytest.mark.parametrize('solution_class', [SolutionHash, SolutionBruteForce, SolutionTwoPointers])
 def test_two_sum(solution_class, nums, target, ret):
     assert(solution_class().twoSum(nums, target) in [ret, list(reversed(ret))])

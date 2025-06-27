@@ -2,15 +2,7 @@ from typing import List, Optional
 
 import pytest
 
-import utility
-
-
-# Definition for a binary tree node.
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
+from auxiliary_types import TreeNode
 
 
 class SolutionWithPointers:
@@ -91,7 +83,7 @@ class SolutionClassic:
         return nodes[0]
 
 
-@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__, exclude_classes=[TreeNode]))
+@pytest.mark.parametrize('solution_class', [SolutionClassic, SolutionSmall, SolutionWithPointers])
 def test_build_tree(solution_class):
     tree = solution_class().buildTree(preorder=[3,9,20,15,7], inorder=[9,3,15,20,7])
     assert tree.val == 3

@@ -2,8 +2,6 @@ from typing import List
 
 import pytest
 
-import utility
-
 
 # Given n non-negative integers representing an elevation map where the width of each bar is 1,
 # compute how much water it can trap after raining.
@@ -70,6 +68,6 @@ class SolutionTwoPointers:
     ([0], 0),
     ([1, 1, 1], 0),
 ])
-@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__))
+@pytest.mark.parametrize('solution_class', [SolutionPeaks, SolutionTwoPointers])
 def test_trapping_rain_water(solution_class, height: List[int], res: int):
     assert res == solution_class().trap(height)

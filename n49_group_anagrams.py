@@ -1,8 +1,7 @@
-import pytest
-from typing import List
 from collections import Counter, defaultdict
+from typing import List
 
-import utility
+import pytest
 
 
 # Given an array of strings strs, group the anagrams together. You can return the answer in any order.
@@ -54,7 +53,7 @@ class Solution3:
     ([""],  [[""]]),
     (["a"], [["a"]]),
 ])
-@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__, exclude_classes=[Counter, defaultdict]))
+@pytest.mark.parametrize('solution_class', [Solution1, Solution2, Solution3])
 def test_group_anagrams(solution_class, strs: List[str], res: List[List[int]]):
     def list_list_to_set_set(list_list: List[List[int]]):
         return {frozenset(list) for list in list_list}

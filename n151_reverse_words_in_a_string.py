@@ -1,7 +1,5 @@
 import pytest
 
-import utility
-
 
 # Given an input string s, reverse the order of the words.
 # A word is defined as a sequence of non-space characters. The words in s will be separated by at least one space.
@@ -45,6 +43,6 @@ class Solution:
     ("the sky is blue", "blue is sky the"),
     ("  hello world  ", "world hello"),
 ])
-@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__))
+@pytest.mark.parametrize('solution_class', [Solution, SolutionFast])
 def test_reverse_words(solution_class, s: str, res: str):
     assert solution_class().reverseWords(s) == res

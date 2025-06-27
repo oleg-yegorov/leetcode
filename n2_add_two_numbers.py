@@ -2,14 +2,7 @@ from typing import Optional
 
 import pytest
 
-from utility import get_module_classes
-
-
-# Definition for singly-linked list.
-class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
+from auxiliary_types import ListNode
 
 
 # You are given two non-empty linked lists representing two non-negative integers.
@@ -18,7 +11,7 @@ class ListNode:
 #
 # You may assume the two numbers do not contain any leading zero, except the number 0 itself.
 
-class Solution:
+class SolutionMy:
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
         l1_ptr = l1
         l2_ptr = l2
@@ -54,7 +47,7 @@ class Solution:
         return head
 
 
-class SolutionAfterYoutube:
+class SolutionOthers:
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
         dummy = ListNode()
         cur = dummy
@@ -74,7 +67,7 @@ class SolutionAfterYoutube:
         return dummy.next
 
 
-@pytest.mark.parametrize('solution_class', get_module_classes(__name__, exclude_classes=[ListNode]))
+@pytest.mark.parametrize('solution_class', [SolutionMy, SolutionOthers])
 def test_add_two_number(solution_class):
     l1 = ListNode(2)
     l1.next = ListNode(4)

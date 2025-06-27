@@ -2,8 +2,6 @@ from typing import List
 
 import pytest
 
-import utility
-
 
 # Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence.
 #
@@ -52,7 +50,7 @@ class Solution2:
         return longest
 
 
-@pytest.mark.parametrize('solution_class', utility.get_module_classes(__name__))
+@pytest.mark.parametrize('solution_class', [Solution1, Solution2])
 def test_longest_cons(solution_class):
     assert solution_class().longestConsecutive([100,4,200,1,3,2]) == 4
     assert solution_class().longestConsecutive([0,3,7,2,5,8,4,6,0,1]) == 9

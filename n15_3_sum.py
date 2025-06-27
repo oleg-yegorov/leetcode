@@ -2,14 +2,12 @@ from typing import List
 
 import pytest
 
-from utility import get_module_classes
-
 
 # Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]]
 # such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
 #
 # Notice that the solution set must not contain duplicate triplets.
-class Solution:
+class SolutionAbstract:
     def twoSum(self, nums, int):
         pass
 
@@ -30,7 +28,7 @@ class Solution:
         return r
 
 
-class SolutionHashTable(Solution):
+class SolutionHashTable(SolutionAbstract):
     # Hash-table approach
     def twoSum(self, nums: List[int], i: int) -> List[List[int]]:
         seen = set()
@@ -63,7 +61,7 @@ class SolutionHashTable(Solution):
         return r
 
 
-class SolutionTwoPointer(Solution):
+class SolutionTwoPointer(SolutionAbstract):
     # Two pointer approach
     def twoSum(self, nums: List[int], i: int) -> List[List[int]]:
         lo, hi = i + 1, len(nums) - 1
@@ -90,7 +88,7 @@ class SolutionTwoPointer(Solution):
     ([0, 1, 1], []),
     ([0, 0, 0], [[0, 0, 0]]),
 ])
-@pytest.mark.parametrize('solution_class', get_module_classes(__name__, exclude_classes=[Solution]))
+@pytest.mark.parametrize('solution_class', [SolutionTwoPointer, SolutionHashTable])
 def test_3sum(solution_class, nums: List[int], res: List[List[int]]):
     def list_list_to_set_set(list_list: List[List[int]]):
         return {frozenset(list) for list in list_list}
